@@ -233,13 +233,23 @@ png_free(png_const_structrp png_ptr, png_voidp ptr)
 {
    if (png_ptr == NULL || ptr == NULL)
       return;
+    if(ptr != NULL)
+    {
+        free(ptr);
+        return;
+    }
 
 #ifdef PNG_USER_MEM_SUPPORTED
    if (png_ptr->free_fn != NULL)
-      png_ptr->free_fn(png_constcast(png_structrp,png_ptr), ptr);
-
-   else
+   {
+       //png_structrp newPtr = png_ptr;
+      //png_ptr->free_fn(newPtr, ptr);
       png_free_default(png_ptr, ptr);
+   }
+
+   else{
+      png_free_default(png_ptr, ptr);
+    }
 }
 
 PNG_FUNCTION(void,PNGAPI
